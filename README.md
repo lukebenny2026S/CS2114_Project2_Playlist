@@ -185,3 +185,65 @@ adjust at your next meeting.*
 | Collection methods, shuffle, manager tests | Abhinav |
 | Optional fields, UI changes, GUI, UI tests | Aidan |
 | Test plan upkeep, JUnit migration, final review | Luke |
+
+Attribution
+
+
+File
+Team member(s)
+How
+LinkedChain.java
+CS 2114 staff
+Provided; used unchanged
+MediaItem.java
+[name]
+Wrote, GenAI-assisted; reviewed by [name]
+Song.java
+[name]
+Wrote, GenAI-assisted; reviewed by [name]
+PodcastEpisode.java
+[name]
+Wrote, GenAI-assisted; reviewed by [name]
+AudiobookChapter.java
+[name]
+Wrote, GenAI-assisted; reviewed by [name]
+MediaType.java
+[name]
+Wrote
+InputValidator.java
+[name]
+Wrote, GenAI-assisted; reviewed by [name]
+PlaylistManager.java
+[name]
+Wrote, GenAI-assisted; reviewed by [name]
+ConsoleUI.java
+[name]
+Wrote, GenAI-assisted; reviewed by [name]
+Main.java
+[name]
+Wrote
+LinkedChainTest.java
+[name]
+Wrote tests from the spec's test plan; ran and verified
+MediaItemTest.java
+[name]
+Wrote, GenAI-assisted edge cases; reviewed each case
+InputValidatorTest.java
+[name]
+Wrote, GenAI-assisted edge cases; reviewed each case
+PlaylistManagerTest.java
+[name]
+Wrote, GenAI-assisted edge cases; reviewed each case
+ConsoleUITest.java
+[name]
+Wrote, GenAI-assisted edge cases; reviewed each case
+README.md
+[name]
+Drafted with GenAI assistance; revised by [name]
+How we used GenAI
+We used Claude to help draft code from our specification, to suggest edge-case tests
+(empty lists, removing something that isn't there, bad menu input, end of input), and
+to help write this README. Every suggested test was read by a team member, and we kept
+only the ones that checked behavior our spec actually promised. We ran the full suite
+ourselves (80 tests, all passing) and can explain what each test checks and why it exists.
+GenAI did not write the LinkedChain, which was provided and left unchanged.
