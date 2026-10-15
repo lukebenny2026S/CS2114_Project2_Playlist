@@ -1,4 +1,4 @@
-# ChainPlay — Deliverable 3 (Prototype + Tests)
+# ChainPlay - Deliverable 3 (Prototype + Tests)
 
 A console playlist manager for songs, podcast episodes, and audiobook
 chapters. All storage is the provided generic `LinkedChain<T>`.
@@ -6,27 +6,46 @@ chapters. All storage is the provided generic `LinkedChain<T>`.
 ## Layout
 
 ```
-src/   LinkedChain, MediaItem, Song, PodcastEpisode, AudiobookChapter,
-       MediaType, InputValidator, PlaylistManager, ConsoleUI, Main
-test/  LinkedChainTest, MediaItemTest, InputValidatorTest,
-       PlaylistManagerTest, ConsoleUITest   (JUnit 4, 80 tests)
+chainplay/
+  src/   LinkedChain, MediaItem, Song, PodcastEpisode, AudiobookChapter,
+         MediaType, InputValidator, PlaylistManager, ConsoleUI, Main
+  test/  LinkedChainTest, MediaItemTest, InputValidatorTest,
+         PlaylistManagerTest, ConsoleUITest   (JUnit 4, 80 tests)
 ```
 
-## Run
+`chainplay/src/main/java/` holds a teammate's in-progress rewrite of the item
+classes (it adds an album field). It is not part of this build; see
+"What doesn't work yet".
+
+## How to compile and run
+
+All commands are run from inside the `chainplay` folder.
+
+```
+cd chainplay
+```
+
+Compile and run the program:
 
 ```
 javac -d out src/*.java
 java -cp out Main
 ```
 
-Tests (needs junit-4.13.2 and hamcrest-core-1.3 on the classpath, or add
-the test folder to your IDE's JUnit setup):
+Compile and run the tests (needs `junit-4.13.2.jar` and
+`hamcrest-core-1.3.jar` in the `chainplay` folder):
 
 ```
 javac -d out -cp junit-4.13.2.jar:hamcrest-core-1.3.jar src/*.java test/*.java
-java -cp out:junit-4.13.2.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore \
-  LinkedChainTest MediaItemTest InputValidatorTest PlaylistManagerTest ConsoleUITest
+java -cp out:junit-4.13.2.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore LinkedChainTest MediaItemTest InputValidatorTest PlaylistManagerTest ConsoleUITest
 ```
+
+On Windows, use `;` instead of `:` between the jar names.
+
+In Eclipse: create a Java project on the `chainplay` folder, exclude
+`src/main` from the build path, add the JUnit 4 library, then right-click
+`test` and choose Run As > JUnit Test. Run the app with Run As > Java
+Application on `Main.java`.
 
 ## How the prototype uses LinkedChain
 
@@ -125,38 +144,40 @@ first thing to change (add a tail, or an `Iterable`) if it mattered.
   `Predicate`).
 * *How to test the console without a real keyboard:* **figured out**
   (`ConsoleUI` takes a `Scanner` and `PrintStream`; tests pass scripted input).
-* [TEAM: add any unknowns from your Deliverable 1 scope that are not listed
-  above, and say figured out / still open for each.]
 
 ### What doesn't work yet?
 
 * Album/collection add and remove, the GUI, shuffle, and the doubly linked
   stretch goal are not built.
-* The `Song` album field from the diagram does not exist.
+* The `Song` album field from the diagram is not in this build. A teammate's
+  version with an album field is in `src/main/java/`, but the manager, UI, and
+  tests have not been switched over to it yet.
+* `pom.xml` is set up for JUnit 5 and the `src/main/java` folder, so
+  `mvn test` does not run our tests yet. Use the `javac` commands above or
+  Eclipse.
 * Every text field is required (including descriptions), so adding a chapter
   takes seven prompts. There is no way to skip a field or edit an item.
 * Playlists are in memory only; nothing is saved between runs.
 * Getters have no bad-input case of their own (there is no input to a getter);
   bad values are covered by the constructor tests.
-* Tests are JUnit 4, not JUnit 5.
 * No known failing tests: all 80 pass.
 
 ## Next Steps
-
-*Owners are a proposal based on who wrote each part of the specification;
-adjust at your next meeting.*
 
 ### Finish the MVP (in this order)
 
 1. Re-read the spec against the code with the whole team and update the
    specification so it matches the three-chain design (Riya).
-2. Decide what "add an album/collection" means, then implement
+2. Merge the `src/main/java` item classes (album field) into `src`, update
+   `PlaylistManager`, `ConsoleUI`, and the tests to the new constructors, and
+   fix `pom.xml` so `mvn test` runs the suite (Abhinav).
+3. Decide what "add an album/collection" means, then implement
    `addAlbum`-style methods in `PlaylistManager` using `addToEnd` (Abhinav).
-3. Let the user skip optional fields (descriptions), and show a clearer
+4. Let the user skip optional fields (descriptions), and show a clearer
    prompt for each field (Aidan).
-4. Add a UI path for the collection methods and print the playlist after
+5. Add a UI path for the collection methods and print the playlist after
    each change (Aidan).
-5. Final pass on Javadoc, style, and edge cases (Luke).
+6. Final pass on Javadoc, style, and edge cases (Luke).
 
 ### Stretch goals
 
@@ -164,10 +185,12 @@ adjust at your next meeting.*
   fits in `PlaylistManager`) (Abhinav), and a simple GUI that replaces
   `ConsoleUI` and calls the same manager methods (Aidan).
 * **Dropping:** the doubly linked list. The provided chain would have to be
-  rewritten, and nothing in the app needs backwards traversal. [TEAM: confirm]
+  rewritten, and nothing in the app needs backwards traversal.
 
 ### New tests we will need
 
+* Album field: `getAlbum` normal case, and null/blank album rejected by the
+  `Song` constructor.
 * Collection add/remove: normal case, empty array, null array, array with a
   null element (list must stay unchanged).
 * Shuffle: normal case (same items, same size), empty list, one item.
@@ -175,75 +198,37 @@ adjust at your next meeting.*
   for required ones.
 * GUI: manager-level tests stay as they are; add one scripted check that each
   button calls the right manager method.
-* Move the tests to JUnit 5 if the course requires it (Luke).
 
 ### Who does what
 
 | Item | Owner |
 |---|---|
 | Spec/README updates, design consistency | Riya |
-| Collection methods, shuffle, manager tests | Abhinav |
+| Album merge, collection methods, shuffle, manager tests | Abhinav |
 | Optional fields, UI changes, GUI, UI tests | Aidan |
-| Test plan upkeep, JUnit migration, final review | Luke |
+| Test plan upkeep, Javadoc/style, final review | Luke |
 
-Attribution
+## Attribution
 
-
-File
-Team member(s)
-How
-LinkedChain.java
-CS 2114 staff
-Provided; used unchanged
-MediaItem.java
-[name]
-Wrote, GenAI-assisted; reviewed by [name]
-Song.java
-[name]
-Wrote, GenAI-assisted; reviewed by [name]
-PodcastEpisode.java
-[name]
-Wrote, GenAI-assisted; reviewed by [name]
-AudiobookChapter.java
-[name]
-Wrote, GenAI-assisted; reviewed by [name]
-MediaType.java
-[name]
-Wrote
-InputValidator.java
-[name]
-Wrote, GenAI-assisted; reviewed by [name]
-PlaylistManager.java
-[name]
-Wrote, GenAI-assisted; reviewed by [name]
-ConsoleUI.java
-[name]
-Wrote, GenAI-assisted; reviewed by [name]
-Main.java
-[name]
-Wrote
-LinkedChainTest.java
-[name]
-Wrote tests from the spec's test plan; ran and verified
-MediaItemTest.java
-[name]
-Wrote, GenAI-assisted edge cases; reviewed each case
-InputValidatorTest.java
-[name]
-Wrote, GenAI-assisted edge cases; reviewed each case
-PlaylistManagerTest.java
-[name]
-Wrote, GenAI-assisted edge cases; reviewed each case
-ConsoleUITest.java
-[name]
-Wrote, GenAI-assisted edge cases; reviewed each case
-README.md
-[name]
-Drafted with GenAI assistance; revised by [name]
-How we used GenAI
-We used Claude to help draft code from our specification, to suggest edge-case tests
-(empty lists, removing something that isn't there, bad menu input, end of input), and
-to help write this README. Every suggested test was read by a team member, and we kept
-only the ones that checked behavior our spec actually promised. We ran the full suite
-ourselves (80 tests, all passing) and can explain what each test checks and why it exists.
-GenAI did not write the LinkedChain, which was provided and left unchanged.
+| File | Team member(s) | How |
+|---|---|---|
+| LinkedChain.java | CS 2114 staff | Provided; used unchanged |
+| MediaItem.java | [Riya] | Wrote, GenAI-assisted; reviewed by [Luke] |
+| Song.java | [Riya] | Wrote, GenAI-assisted; reviewed by [Luke] |
+| PodcastEpisode.java | [Riya] | Wrote, GenAI-assisted; reviewed by [Luke] |
+| AudiobookChapter.java | [Riya] | Wrote, GenAI-assisted; reviewed by [Luke] |
+| MediaType.java | [Luke] | Wrote |
+| InputValidator.java | [Luke] | Wrote, GenAI-assisted; reviewed by [Riya] |
+| PlaylistManager.java | [Luke] | Wrote, GenAI-assisted; reviewed by [Riya] |
+| ConsoleUI.java | [Luke] | Wrote, GenAI-assisted; reviewed by [Riya] |
+| Main.java | [Abhinav] | Wrote |
+| LinkedChainTest.java | [Abhinav] | Wrote tests from the spec's test plan; ran and verified |
+| MediaItemTest.java | [Abhninav] | Wrote, GenAI-assisted edge cases; reviewed each case |
+| InputValidatorTest.java | [Abhinav] | Wrote, GenAI-assisted edge cases; reviewed each case |
+| PlaylistManagerTest.java | [Aidan]| Wrote, GenAI-assisted edge cases; reviewed each case |
+| ConsoleUITest.java | [Aidan] | Wrote, GenAI-assisted edge cases; reviewed each case |
+| README.md | [Aidan] | Drafted with GenAI assistance; revised by [Abhinav] |
+
+### How we used GenAI
+
+We used Claude to help draft code from our specification, to suggest edge-case tests (empty lists, removing something that isn't there, bad menu input, end of input), and to help write this README. Every suggested test was read by a team member, and we kept only the ones that checked behavior our spec actually promised. We ran the full suite ourselves (80 tests, all passing) and can explain what each test checks and why it exists. GenAI did not write the LinkedChain, which was provided and left unchanged.
