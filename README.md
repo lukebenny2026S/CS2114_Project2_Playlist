@@ -1,4 +1,4 @@
-# ChainPlay - Deliverable 3 (Prototype + Tests)
+# ChainPlay
 
 A console playlist manager for songs, podcast episodes, and audiobook
 chapters. All storage is the provided generic `LinkedChain<T>`.
