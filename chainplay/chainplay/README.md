@@ -185,3 +185,12 @@ adjust at your next meeting.*
 | Collection methods, shuffle, manager tests | Abhinav |
 | Optional fields, UI changes, GUI, UI tests | Aidan |
 | Test plan upkeep, JUnit migration, final review | Luke |
+
+
+## Project Setup Notes
+
+This project uses Java and JUnit tests to check playlist functionality.
+
+When opening the project in Eclipse, verify that the correct
+source folders are configured and that the required libraries
+are available before running the application or tests.
